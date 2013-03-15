@@ -28,15 +28,8 @@ module CanI
 
     attr_reader :auth_role
 
-    def initialize(role=:authorization)
-
-      @can_do_anything = false
-      klass = CanI.const_defined?("#{role}_role".camelize) ? CanI.const_get("#{role}_role".camelize) : Kernel.const_get("#{role}_role".camelize)
-
-      @auth_role = klass.new
-      klass.registration_blocks.each do |more_roles|
-        instance_eval &more_roles
-      end
+    def initialize(role=:authorization)      
+      reset_with_role! role
     end
 
     def can(action)
@@ -55,8 +48,17 @@ module CanI
       @can_do_anything = true
     end
 
+    def reset_with_role!(role)
+      @can_do_anything = false
+      @approved_actions = []
 
-    private
+      klass = role_for_symbol(role)
+      @auth_role = klass.new
+      klass.registration_blocks.each { |b| instance_eval &b }
+    end
+
+
+    protected
 
     def approved_actions
       @approved_actions ||= []
@@ -64,6 +66,11 @@ module CanI
 
     def can_do_anything?
       @can_do_anything
+    end
+
+    def role_for_symbol(sym)
+      role = "#{sym}_role".camelize
+      CanI.const_defined?(role) ? CanI.const_get(role) : Kernel.const_get(role)
     end
 
   end

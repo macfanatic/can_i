@@ -90,3 +90,17 @@ class AdminRole < BaseRole
 end
 ```
 
+## Changing Roles At Runtime
+You can change a role at runtime without creating an entirely new `Authorization` object.
+
+```ruby
+
+# Say we always start out with a "default" role in our app
+@auth = CanI::Authorization.new :default
+
+### ...
+
+# Now we realize we need to use a different role
+@auth.reset_with_role! :admin
+
+```
