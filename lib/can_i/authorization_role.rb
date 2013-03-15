@@ -17,21 +17,32 @@ module CanI
     #   @auth.can? :fire_people
     #   => true
     #
+    # The above admin example would probably be more realistically written as:
+    #   class AdminRole < CanI::AuthorizationRole
+    #     authorization_roles do
+    #       can_do_anything!
+    #     end
+    #   end
+    #
 
     class << self
 
+      # DSL to register a block to add more roles
       def authorization_roles(&block)
-        registration_blocks << block
+        class_instance_blocks << block
       end
 
+      # Returns blocks for this subclass & all superclasses merged together
       def registration_blocks
-        @@registration_blocks ||= []
+        ancestors.select { |klass| klass <= CanI::AuthorizationRole }.map { |klass| klass.class_instance_blocks }.flatten
+      end  
+
+      # Stores the blocks registered just for this class
+      def class_instance_blocks
+        @class_instance_blocks ||= []
       end
+      protected :class_instance_blocks
 
-    end
-
-    # use to define additional rules in your subclass
-    authorization_roles do
     end
 
   end

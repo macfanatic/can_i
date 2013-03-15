@@ -11,15 +11,7 @@ describe "auth roles" do
   describe "custom auth roles" do
 
     before do
-
-      class CustomRole < CanI::AuthorizationRole
-        authorization_roles do
-          can :my_role
-        end
-      end
-
       @auth = CanI::Authorization.new :custom
-
     end
 
     it "should respect my custom auth role" do
@@ -28,6 +20,17 @@ describe "auth roles" do
 
     it "should allow custom roles to add definitions" do
       @auth.can?(:my_role).should == true
+    end
+
+  end
+
+  describe "can do anything" do
+    before do
+      @auth = CanI::Authorization.new :admin
+    end
+
+    it "should let me do anything I want" do
+      @auth.can?(Time.now.to_i.to_s).should == true
     end
 
   end
