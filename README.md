@@ -78,3 +78,15 @@ You associate a role with the authorization system when you create your authoriz
 ```ruby
 App.delegate.authorization = CanI::Authorization.new :admin
 ```
+
+### Can Do Anything
+For an admin role, you're most likely going to let the user do anything.  There's a method for that too.  Note that you can't override the all powerful setting in a subclass of the `AdminRole`.
+
+```ruby
+class AdminRole < BaseRole
+  authorization_roles do
+    can_do_anything!
+  end
+end
+```
+
