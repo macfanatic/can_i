@@ -30,10 +30,11 @@ module CanI
 
     def initialize(role=:authorization)
 
+      @can_do_anything = false
       klass = CanI.const_defined?("#{role}_role".camelize) ? CanI.const_get("#{role}_role".camelize) : Kernel.const_get("#{role}_role".camelize)
 
       @auth_role = klass.new
-      auth_role.class.registration_blocks.each do |more_roles|
+      klass.registration_blocks.each do |more_roles|
         instance_eval &more_roles
       end
     end
@@ -43,11 +44,15 @@ module CanI
     end
 
     def can?(action)
-      approved_actions.include? action.to_sym
+      can_do_anything? || approved_actions.include?(action.to_sym)
     end
 
     def cannot(action)
       approved_actions.delete action.to_sym
+    end
+
+    def can_do_anything!
+      @can_do_anything = true
     end
 
 
@@ -55,6 +60,10 @@ module CanI
 
     def approved_actions
       @approved_actions ||= []
+    end
+
+    def can_do_anything?
+      @can_do_anything
     end
 
   end
