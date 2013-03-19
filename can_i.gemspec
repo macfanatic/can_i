@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.summary       = "Provides an easy way to define roles for performing actions in your RubyMotion app."
   s.description   = "Provides an easy way to define roles for performing actions in your RubyMotion app."
 
-  s.homepage      = "https://github.com/macfanatic/rubymotion_roles"
+  s.homepage      = "https://github.com/macfanatic/can_i"
   s.files         = `git ls-files`.split($\)
   s.test_files    = s.files.grep(%r{^spec/})
   s.require_paths = ['lib']
