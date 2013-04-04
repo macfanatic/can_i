@@ -1,6 +1,8 @@
 # Can I?
 Provides a simple DSL to define actions as roles in your [RubyMotion](http://www.rubymotion.com) app.  Requires [BubbleWrap](https://github.com/rubymotion/BubbleWrap) as a dependency.
 
+![Travis CI](https://secure.travis-ci.org/macfanatic/can_i.png?branch=master)
+
 ## Installation
 
 Add the following to your project's `Rakefile` to work with bundler.
