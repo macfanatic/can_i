@@ -7,13 +7,17 @@ Gem::Specification.new do |s|
   s.email         = 'matt.brewer@me.com'
 
   s.summary       = "Provides an easy way to define roles for performing actions in your RubyMotion app."
-  s.description   = "Provides an easy way to define roles for performing actions in your RubyMotion app."
-
+  s.description   = "Authorization DSL for querying if a user can or cannot perform an action in your application."
   s.homepage      = "https://github.com/macfanatic/can_i"
-  s.files         = `git ls-files`.split($\)
-  s.test_files    = s.files.grep(%r{^spec/})
+  s.license       = "MIT"
+
+  s.files         = Dir["lib/**/*"] + ["README.md"]
+  s.test_files    = Dir["spec/**/*"]
   s.require_paths = ['lib']
 
   s.add_dependency "bubble-wrap"
+
+  s.add_development_dependency "rake"
+  s.add_development_dependency "motion-stump"
 
 end
